@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: auto-rollback-gateway
+  namespace: auto-rollback-ns
+spec:
+  selector:
+    istio: ingressgateway # Selects the Istio LoadBalancer
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"

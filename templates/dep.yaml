@@ -1,0 +1,47 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: auto-rollback
+  namespace: auto-rollback-ns
+spec:
+  replicas: 10 
+  selector:
+    matchLabels:
+      app: auto-rollback
+  template:
+    metadata:
+      labels:
+        app: auto-rollback
+        version: {{ .Values.image.tag }}
+    spec:
+      containers:
+      - name: auto-rollback
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 3000
+        env:
+        - name: VERSION
+          value: "v1"
+
+  strategy:
+    canary:
+      
+      stableService: auto-rollback-stable
+      canaryService: auto-rollback-canary
+
+
+      trafficRouting:
+        istio:
+          virtualService:
+            name: auto-rollback-vs
+            routes:
+            - http
+      steps:
+      - setWeight: 20 
+      - pause: {}
+      - setWeight: 60
+      - pause: {} 
+      - setWeight: 80 
+      - pause: {}
+      - setWeight: 100 

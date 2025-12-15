@@ -1,0 +1,36 @@
+
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: auto-rollback-dr
+  namespace: auto-rollback-ns
+spec:
+  host: auto-rollback-stable 
+  subsets:
+  - name: stable
+    labels:
+      app: auto-rollback
+  - name: canary
+    labels:
+      app: auto-rollback
+---
+# 4. Istio Virtual Service (Enforce 50/50 Split)
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: auto-rollback-vs
+  namespace: auto-rollback-ns
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - auto-rollback-gateway
+  http:
+  - name: http 
+    route:
+    - destination:
+        host: auto-rollback-stable
+      weight: 100
+    - destination:
+        host: auto-rollback-canary
+      weight: 0
