@@ -3,7 +3,7 @@ apiVersion: networking.istio.io/v1
 kind: DestinationRule
 metadata:
   name: auto-rollback-dr
-  namespace: auto-rollback-ns
+  namespace: {{ .Values.namespace }}
 spec:
   host: auto-rollback-stable 
   subsets:
@@ -19,7 +19,7 @@ apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: auto-rollback-vs
-  namespace: auto-rollback-ns
+  namespace: {{ .Values.namespace }}
 spec:
   hosts:
   - "*"
@@ -27,6 +27,9 @@ spec:
   - auto-rollback-gateway
   http:
   - name: http 
+    # match:
+    # - uri:
+    #     prefix: "/"
     route:
     - destination:
         host: auto-rollback-stable

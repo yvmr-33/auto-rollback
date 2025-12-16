@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: auto-rollback-stable 
-  namespace: auto-rollback-ns 
+  namespace: {{ .Values.namespace }}
   labels:
     app: auto-rollback
 spec:
@@ -20,7 +20,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: auto-rollback-canary
-  namespace: auto-rollback-ns
+  namespace: {{ .Values.namespace }}
   labels:
     app: auto-rollback
 spec:

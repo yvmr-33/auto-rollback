@@ -3,9 +3,10 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: auto-rollback
-  namespace: auto-rollback-ns
+  namespace: {{ .Values.namespace }}
 spec:
-  replicas: 10 
+  # replicas: 5
+  replicas:  {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: auto-rollback
@@ -14,10 +15,12 @@ spec:
       labels:
         app: auto-rollback
         version: {{ .Values.image.tag }}
+        # version: v1
     spec:
       containers:
       - name: auto-rollback
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        # image: docker.io/yvmr/img:v1.0.0
         ports:
         - containerPort: 3000
         env:
