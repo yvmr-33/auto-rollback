@@ -40,6 +40,16 @@ spec:
             name: auto-rollback-vs
             routes:
             - http
+      analysis:
+          templates:
+          - templateName: error-rate-check 
+          args:
+          - name: stable-version
+            valueFrom:
+              podTemplateHashValue: Stable
+          - name: canary-version
+            valueFrom:
+              podTemplateHashValue: Latest
       steps:
       - setWeight: 20 
       - pause: {}
