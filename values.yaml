@@ -7,15 +7,16 @@ replicaCount: 5
 namespace: auto-rollback-ns
 
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
-Variables:
+variables:
   delta: 0.3
   interval: 1m
   failureLimit: 1
   windowTime: 5m
+
 image:
   repository: docker.io/yvmr/img
   pullPolicy: IfNotPresent
-  tag: "v1.0.0"
+  tag: "v4.0.0"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
