@@ -52,7 +52,7 @@ spec:
               podTemplateHashValue: Latest
       steps:
       - setWeight: 20 
-      - pause: {5m}
+      - pause: {duration: 10m}   
       - setWeight: 60
       - pause: {} 
       - setWeight: 80 
