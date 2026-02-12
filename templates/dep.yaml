@@ -20,8 +20,6 @@ spec:
       containers:
       - name: auto-rollback
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        args:
-        - "--log-level=debug"
         # image: docker.io/yvmr/img:v1.0.0
         ports:
         - containerPort: 3000
