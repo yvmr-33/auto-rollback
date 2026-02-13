@@ -11,6 +11,7 @@ spec:
     successCondition: result[0] <= 0 
     interval: {{ .Values.Variables.interval }}
     failureLimit: {{ .Values.Variables.failureLimit }}
+    consecutiveErrorLimit: 1000000000
     provider:
       prometheus:
         address: http://prometheus.istio-system.svc.cluster.local:9090 
