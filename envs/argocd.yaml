@@ -10,6 +10,8 @@ spec:
     repoURL: https://github.com/yvmr-33/auto-rollback
     targetRevision: test/minikube_deploy
     path: charts/argo-cd
+    helm:
+      releaseName: argocd
 
   destination:
     server: https://kubernetes.default.svc
