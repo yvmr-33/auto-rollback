@@ -12,6 +12,9 @@ spec:
     path: charts/argo-cd
     helm:
       releaseName: argocd
+      values: |
+        crds:
+          install: false
 
   destination:
     server: https://kubernetes.default.svc
