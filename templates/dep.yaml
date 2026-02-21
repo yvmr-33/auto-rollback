@@ -1,11 +1,10 @@
 
 apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+kind: Deployment
 metadata:
   name: auto-rollback
   namespace: {{ .Values.namespace }}
 spec:
-  # replicas: 5
   replicas:  {{ .Values.replicaCount }}
   selector:
     matchLabels:
@@ -15,48 +14,12 @@ spec:
       labels:
         app: auto-rollback
         version: {{ .Values.image.tag }}
-        # version: v1
     spec:
       containers:
       - name: auto-rollback
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        # image: docker.io/yvmr/img:v1.0.0
         ports:
         - containerPort: 3000
         env:
         - name: VERSION
           value: "v1"
-        
-
-  strategy:
-    canary:
-      
-      stableService: auto-rollback-stable
-      canaryService: auto-rollback-canary
-
-
-      trafficRouting:
-        istio:
-          virtualService:
-            name: auto-rollback-vs
-            routes:
-            - http
-      analysis:
-          templates:
-          - templateName: error-rate-check 
-          args:
-          - name: stable-version
-            valueFrom:
-              podTemplateHashValue: Stable
-          - name: canary-version
-            valueFrom:
-              podTemplateHashValue: Latest
-      steps:
-      - setWeight: 20 
-      - pause: {duration: 1m}   
-      - setWeight: 60
-      - pause: {duration: 4m}   
-      - setWeight: 80 
-      - pause: {duration: 8m}  
-      - setWeight: 100
-      - pause: {}  

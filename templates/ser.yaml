@@ -2,24 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: auto-rollback-stable 
-  namespace: {{ .Values.namespace }}
-  labels:
-    app: auto-rollback
-spec:
-  ports:
-  - name: http
-    port: 80
-    targetPort: 3000
-  selector:
-    app: auto-rollback 
-
----
-# 2. Preview Service (Canary Traffic)
-apiVersion: v1
-kind: Service
-metadata:
-  name: auto-rollback-canary
+  name: auto-rollback 
   namespace: {{ .Values.namespace }}
   labels:
     app: auto-rollback
