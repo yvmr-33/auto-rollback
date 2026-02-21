@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: appa
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/yvmr-33/auto-rollback
+    targetRevision: test/minikube_deploy
+    path: charts/microservices
+    helm:
+      valueFiles:
+        - values/appa/values.yaml
+        - values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: appa
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
