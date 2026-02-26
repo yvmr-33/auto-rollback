@@ -1,0 +1,25 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auto-rollback
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas:  {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: auto-rollback
+  template:
+    metadata:
+      labels:
+        app: auto-rollback
+        version: {{ .Values.image.tag }}
+    spec:
+      containers:
+      - name: auto-rollback
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 3000
+        env:
+        - name: VERSION
+          value: "v1"
